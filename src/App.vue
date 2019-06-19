@@ -2,19 +2,27 @@
   <div id="app">
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <PlayList :wnSettings="wnSettings" :selected="selected" @change="handleChange"/>
     <PlayDiv :circles="selectedWnSetting.sounds" :wnList="wnList" :isPlay="isPlay"/>
+    <AddWnMenu :wnList="wnList" />
   </div>
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue';
 import PlayDiv from './components/PlayDiv.vue';
+import PlayList from './components/PlayList.vue';
+import AddWnMenu from './components/AddWnMenu.vue';
+
 import { api } from './util/api'
+import { debuglog } from 'util';
 
 export default {
   name: 'app',
   components: {
     PlayDiv,
+    PlayList,
+    AddWnMenu,
   },
   data(){
     return {
@@ -28,10 +36,16 @@ export default {
   },
   computed: {
     selectedWnSetting(){
-      return this.selected ? this.wnSettings[this.selected] : {};
+      //selected 为配置的id
+      let index = this.wnSettings.findIndex(item => item.id === this.selected);
+      return index != -1 ? this.wnSettings[index] : {};
     }
   },
   methods: {
+    handleChange(e) {
+      // debugger;
+      this.selected = parseInt(e);
+    },
     getWnSettings() {
       api.http(
         name='local-wnsettings',{

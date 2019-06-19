@@ -125,7 +125,7 @@ $iconSize: 35px;
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: all 3s;
+        transition: box-shadow 3s;
         .circle-icon {
             width: $iconSize;
             height: $iconSize;
